@@ -1,0 +1,2 @@
+export GOROOT=/usr/local/go
+export GOPATH=/Users/ytkang/Development/project/golang_chat_bot
