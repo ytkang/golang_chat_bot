@@ -26,6 +26,8 @@
 				border-style: solid;
 				border-radius: 2px;
 				padding: 10px;
+				height: 200px;
+				overflow-y: auto;
 			}
 			#textin {
 				font-size: 1em;
@@ -41,7 +43,9 @@
 				sock.onopen = function(m) { 
 					console.log("CONNECTION opened..." + this.readyState);}
 				sock.onmessage = function(m) { 
-					$('#chatbox').append('<p>' + m.data + '</p>');}
+					$('#chatbox').append('<p>' + m.data + '</p>');
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight)
+				}
 				sock.onerror = function(m) {
 					console.log("Error occured sending..." + m.data);}
 				sock.onclose = function(m) { 
