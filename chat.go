@@ -36,7 +36,6 @@ func init() {
 
 // WebSocket server to handle chat between clients
 func SockServer(ws *websocket.Conn) {
-	insideInt := 0
 	var err error
 	var clientMessage string
 	// use []byte if websocket binary type is blob or arraybuffer
@@ -54,7 +53,6 @@ func SockServer(ws *websocket.Conn) {
 	sockCli := network.ClientConn{ws, client}
 	ActiveClients[sockCli] = 0
 	log.Println("Number of clients connected ...", len(ActiveClients))
-	log.Println("inside int: ", insideInt)
 	// for loop so the websocket stays open otherwise
 	// it'll close after one Receieve and Send
 	for {
@@ -70,8 +68,7 @@ func SockServer(ws *websocket.Conn) {
 		sendingMessage := sockCli.ClientIP + " Said: " + clientMessage
 		clientMessage = strings.Replace(clientMessage, "\n", "", -1)
 		if len(clientMessage) == 0 {
-			log.Println(clientMessage)
-			return
+			continue
 		}
 
 		if !strings.Contains(clientMessage, "A:") && !strings.Contains(clientMessage, "a:") {
@@ -99,9 +96,12 @@ func SockServer(ws *websocket.Conn) {
 					log.Println("mongo db is nil")
 				}
 
+				log.Println("will send broadcast message to clients")
 				if err = Message.Send(cs.Websocket, sendingMessage); err != nil {
 					// we could not send the message to a peer
 					log.Println("Could not send message to ", cs.ClientIP, err.Error())
+				} else {
+					log.Println("broadcast done")
 				}
 			}
 		}

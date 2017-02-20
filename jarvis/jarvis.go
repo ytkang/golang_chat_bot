@@ -52,6 +52,7 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 
 			//err = c.Insert(&Msg{Text:clientMessage})
 			if err != nil {
+				log.Println("[jarvis] find error")
 				log.Panic(err)
 				answer = "I cannot understand :("
 			} else {
@@ -79,6 +80,7 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 	}
 
 	answer = "Jarvis said: "+answer
+	log.Println(answer)
 	for cs, _ := range activeClients {
 		if err := ws.Send(cs.Websocket, answer); err != nil {
 			// we could not send the message to a peer
