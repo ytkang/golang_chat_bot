@@ -8,8 +8,8 @@ import (
 	"os"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"./jarvis"
-	"./network"
+	"ytkang/jarvis"
+	"ytkang/network"
 	"strings"
 )
 
