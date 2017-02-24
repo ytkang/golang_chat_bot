@@ -11,16 +11,13 @@ import (
 	"github.com/ytkang/golang_chat_bot/jarvis"
 	"github.com/ytkang/golang_chat_bot/network"
 	"strings"
-	"net"
-	"crypto/tls"
 )
 
 const (
-	Host     = "cluster0-shard-00-00-rgvbm.mongodb.net:27017"
-	//Host 	 = "mongodb://cluster0-shard-00-00-rgvbm.mongodb.net:27017,cluster0-shard-00-01-rgvbm.mongodb.net:27017,cluster0-shard-00-02-rgvbm.mongodb.net:27017/test?replicaSet=Cluster0-shard-0"
+	Host     = "mongodb://ds161209.mlab.com:61209"
 	Username = "mongo"
 	Password = "mongo123"
-	Database = "admin"
+	Database = "ytchat"
 )
 
 var (
@@ -127,24 +124,28 @@ func RootHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	log.Println("MongoDB connection..")
-	session, m_err := mgo.DialWithInfo(&mgo.DialInfo{
-		Addrs:    []string{Host},
-		Username: Username,
-		Password: Password,
-		Database: Database,
-		DialServer: func(addr *mgo.ServerAddr) (net.Conn, error) {
-			return tls.Dial("tcp", addr.String(), &tls.Config{})
-		},
-	})
+	var m_err error = nil
 
+	log.Println("MongoDB connection..")
+	mongo, m_err = mgo.Dial("mongodb://mongo:mongo123@ds161209.mlab.com:61209/ytchat")
+
+	// session, m_err := mgo.DialWithInfo(&mgo.DialInfo{
+	// 	Addrs:    []string{Host},
+	// 	Username: Username,
+	// 	Password: Password,
+	// 	Database: Database,
+	// 	DialServer: func(addr *mgo.ServerAddr) (net.Conn, error) {
+	// 		return tls.Dial("tcp", addr.String(), &tls.Config{})
+	// 	},
+	// })
+	// mongo = session
+	
 	if m_err != nil {
 		panic(m_err)
 		log.Println("[Error] MongoDB connecting failed")
 	} else {
 		log.Println("MongoDB connected")
 	}
-	mongo = session
 	mongo.SetMode(mgo.Monotonic, true)
 	jarvis = SmartJarvis.NewJarvis()
 	log.Println("Starting..", listenAddr)
