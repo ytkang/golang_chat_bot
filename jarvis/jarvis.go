@@ -27,7 +27,7 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 	time.Sleep(500 * time.Millisecond)
 	answer := "hihi~ I'm Jarvis"
 
-	c := db.DB("chat").C("messages")
+	c := db.DB("ytchat").C("messages")
 
 	if strings.Contains(message, "A:") || strings.Contains(message, "a:") {
 		if db == nil {

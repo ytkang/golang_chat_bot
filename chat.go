@@ -79,7 +79,7 @@ func SockServer(ws *websocket.Conn) {
 				// go Message.Send(cs.websocket, clientMessage) // DO NOT THIS! This handler is already called from go routine
 				if mongo != nil {
 					var msg network.Msg = network.Msg{}
-					c := mongo.DB("chat").C("messages")
+					c := mongo.DB("ytchat").C("messages")
 					change := mgo.Change{
 						Update: bson.M{"text": clientMessage},
 						Upsert: true,
