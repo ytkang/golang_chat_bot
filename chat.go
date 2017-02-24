@@ -16,7 +16,6 @@ import (
 )
 
 const (
-	listenAddr = "0.0.0.0:3000" // server address
 	Host     = "cluster0-shard-00-00-rgvbm.mongodb.net:27017"
 	//Host 	 = "mongodb://cluster0-shard-00-00-rgvbm.mongodb.net:27017,cluster0-shard-00-01-rgvbm.mongodb.net:27017,cluster0-shard-00-02-rgvbm.mongodb.net:27017/test?replicaSet=Cluster0-shard-0"
 	Username = "mongo"
@@ -32,6 +31,7 @@ var (
 	ActiveClients = make(map[network.ClientConn]int) // map containing clients
 	mongo	      *mgo.Session = nil
 	jarvis	*SmartJarvis.Jarvis
+	listenAddr = "0.0.0.0:"+os.Getenv("PORT") // server address
 )
 
 // Initialize handlers and websocket handlers
@@ -148,7 +148,7 @@ func main() {
 	mongo.SetMode(mgo.Monotonic, true)
 	jarvis = SmartJarvis.NewJarvis()
 	log.Println("Starting..", listenAddr)
-
+	
 	err := http.ListenAndServe(listenAddr, nil)
 	if err != nil {
 		panic("ListenAndServe: " + err.Error())
