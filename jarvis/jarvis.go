@@ -2,7 +2,7 @@ package SmartJarvis
 
 import (
 	"golang.org/x/net/websocket"
-	"ytkang/network"
+	"github.com/ytkang/golang_chat_bot/network"
 	"log"
 	"time"
 	"strings"

@@ -8,8 +8,8 @@ import (
 	"os"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"ytkang/jarvis"
-	"ytkang/network"
+	"github.com/ytkang/golang_chat_bot/jarvis"
+	"github.com/ytkang/golang_chat_bot/network"
 	"strings"
 )
 
