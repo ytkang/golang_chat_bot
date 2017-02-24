@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	listenAddr = "10.0.100.31:3000" // server address
+	listenAddr = "0.0.0.0:3000" // server address
 	mongoHost = "127.0.0.1:27017" // mongodb host
 )
 
