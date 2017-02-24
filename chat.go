@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	listenAddr = "0.0.0.0:3000" // server address
+	listenAddr = "stark-fjord-60327.herokuapp.com:80" // server address
 	mongoHost = "127.0.0.1:27017" // mongodb host
 )
 
