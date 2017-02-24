@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	listenAddr = "0.0.0.0:3000" // server address
+	listenAddr = "0.0.0.0:80" // server address
 	Host     = "cluster0-shard-00-00-rgvbm.mongodb.net:27017"
 	//Host 	 = "mongodb://cluster0-shard-00-00-rgvbm.mongodb.net:27017,cluster0-shard-00-01-rgvbm.mongodb.net:27017,cluster0-shard-00-02-rgvbm.mongodb.net:27017/test?replicaSet=Cluster0-shard-0"
 	Username = "mongo"
