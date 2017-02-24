@@ -148,7 +148,7 @@ func main() {
 	mongo.SetMode(mgo.Monotonic, true)
 	jarvis = SmartJarvis.NewJarvis()
 	log.Println("Starting..", listenAddr)
-	
+
 	err := http.ListenAndServe(listenAddr, nil)
 	if err != nil {
 		panic("ListenAndServe: " + err.Error())
