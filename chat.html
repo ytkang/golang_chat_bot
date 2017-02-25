@@ -76,6 +76,12 @@
 				max-width: 900px;
 				margin: 0 auto;
 			}
+			body {
+				font-size: 16px;
+			}
+			input[type="text"] {
+				font-size: inherit;
+			}
 		</style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
 		<script
@@ -135,13 +141,17 @@
 
 	<script>
 		var me = "";
+		var closed = true;
         try {
             var sock = new WebSocket(location.protocol.replace("http","ws") + "//" + location.host +"/sock");
             //sock.binaryType = 'blob'; // can set it to 'blob' or 'arraybuffer
             console.log("Websocket - status: " + sock.readyState);
             sock.onopen = function(m) {
                 console.log(sock);
-                console.log("CONNECTION opened..." + this.readyState);}
+                console.log("CONNECTION opened..." + this.readyState);
+                closed = false;
+            }
+
             sock.onmessage = function(m) {
                 var ipdata = m.data.split("$%$%YOUR IP$%$%:");
                 if (ipdata.length >1) {
@@ -165,6 +175,7 @@
             sock.onerror = function(m) {
                 console.log("Error occured sending..." + m.data);}
             sock.onclose = function(m) {
+                closed = true;
                 console.log("Disconnected - status " + this.readyState);
                 $('#chatbox').append('<p>Your connection is closed! please refresh page(새로고침 해주세요~ㅠ_ㅠ)</p>');
                 $('#box-wrapper').scrollTop($('#box-wrapper')[0].scrollHeight);
@@ -185,6 +196,12 @@
                 sendMessage();
             }
         });
+
+        setInterval(function(){
+            if(!closed) {
+				sock.send("");
+			}
+		}, 1000);
 
         function makeMyMessage(msg) {
             var html = '<li class="right clearfix"><span class="chat-img pull-right">' +
