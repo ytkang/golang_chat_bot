@@ -4,88 +4,215 @@
 		<meta charset="utf-8"/>
 		<title> WebSockets </title>
 		<style>
-			* {
-				padding: 0px;
-				margin: 0px;
+			.chat
+			{
+				list-style: none;
+				margin: 0;
+				padding: 0;
 			}
-			body {
-				width:100%;
-				font-size: 13px;
+
+			.chat li
+			{
+				margin-bottom: 10px;
+				padding-bottom: 5px;
+				border-bottom: 1px dotted #B3A9A9;
 			}
-			h1 {
-				text-align: center;
+
+			.chat li.left .chat-body
+			{
+				margin-left: 60px;
 			}
-			#chat-box-container {
-				width: 600px;
-				height: 100%;
-				margin: 0 auto;
-				padding: 50px;
-				font-size: 1.5em;
+
+			.chat li.right .chat-body
+			{
+				margin-right: 60px;
 			}
-			#chatbox {
-				border-style: solid;
-				border-radius: 2px;
-				padding: 10px;
-				height: 200px;
-				overflow-y: auto;
+
+
+			.chat li .chat-body p
+			{
+				margin: 0;
+				color: #777777;
 			}
-			#textin {
-				font-size: 1em;
-				width: 80%;
+
+			.panel .slidedown .glyphicon, .chat .glyphicon
+			{
+				margin-right: 5px;
+			}
+
+			.panel-body
+			{
+				overflow-y: scroll;
+				height: 250px;
+			}
+
+			::-webkit-scrollbar-track
+			{
+				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+				background-color: #F5F5F5;
+			}
+
+			::-webkit-scrollbar
+			{
+				width: 12px;
+				background-color: #F5F5F5;
+			}
+
+			::-webkit-scrollbar-thumb
+			{
+				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+				background-color: #555;
+			}
+			.my-name
+			{
+				padding: 0 0 0 10px;
+			}
+			.my-chat-msg
+			{
+				float: right;
 			}
 		</style>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script>
-			try {
-				var sock = new WebSocket(location.protocol.replace("http","ws") + "//" + location.host +"/sock");
-				//sock.binaryType = 'blob'; // can set it to 'blob' or 'arraybuffer 
-				console.log("Websocket - status: " + sock.readyState);
-				sock.onopen = function(m) { 
-					console.log("CONNECTION opened..." + this.readyState);}
-				sock.onmessage = function(m) { 
-					$('#chatbox').append('<p>' + m.data + '</p>');
-                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
-				}
-				sock.onerror = function(m) {
-					console.log("Error occured sending..." + m.data);}
-				sock.onclose = function(m) { 
-					console.log("Disconnected - status " + this.readyState);
-					$('#chatbox').append('<p>socket is closed! please refresh page</p>');
-                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
-                }
-			} catch(exception) {
-				console.log(exception);
-			}
-		</script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
+		<script
+				src="https://code.jquery.com/jquery-3.1.1.min.js"
+				integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+				crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<div id="chat-box-container">
-			<h2> Hello Jarvis world!</h2>
-			<div id="chatbox">
-				<p> Welcome! </p>
-			</div>
-			<div id ="text">
-				<input id="textin" placeholder="This is where you type..." />
-				</input>
-				<button id="send">Send Message</button>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<span class="glyphicon glyphicon-comment"></span> Chat
+						<div class="btn-group pull-right">
+							<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</button>
+							<ul class="dropdown-menu slidedown">
+								<li><a href="#" onclick="location.reload();"><span class="glyphicon glyphicon-refresh">
+                            </span>Refresh</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="panel-body">
+						<ul class="chat" id="chatbox">
+
+						</ul>
+					</div>
+					<div class="panel-footer">
+						<div class="input-group">
+							<input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
+							<span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="btn-chat">
+                                Send</button>
+                        </span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+	</div>
 
-
-		<script>
-			$('#textin').val("");
-			// take what's the textbox and send it off
-            function sendMessage(event) {
-                sock.send($('#textin').val());
-                $('#textin').val("");
-            }
-			$('#send').click(sendMessage);
-            $("#textin").on('keyup', function(e){
-                if (e.keyCode == 13) {
-                    sendMessage();
-                }
-			});
-		</script>
+	<!--<div id="chat-box-container">-->
+			<!--<h2> Hello Jarvis world!</h2>-->
+			<!--<div id="chatbox">-->
+				<!--<p> Welcome! </p>-->
+			<!--</div>-->
+			<!--<div id ="text">-->
+				<!--<input id="textin" placeholder="This is where you type..." />-->
+				<!--</input>-->
+				<!--<button id="send">Send Message</button>-->
+			<!--</div>-->
+		<!--</div>-->
 	</body>
+
+	<script>
+		var me = "";
+        try {
+            var sock = new WebSocket(location.protocol.replace("http","ws") + "//" + location.host +"/sock");
+            //sock.binaryType = 'blob'; // can set it to 'blob' or 'arraybuffer
+            console.log("Websocket - status: " + sock.readyState);
+            sock.onopen = function(m) {
+                console.log(sock);
+                console.log("CONNECTION opened..." + this.readyState);}
+            sock.onmessage = function(m) {
+                var ipdata = m.data.split("$%$%YOUR IP$%$%:");
+                if (ipdata.length >1) {
+                    me = ipdata[1];
+                    return;
+				}
+
+				var data = m.data.split(" Said:");
+				var ip = data[0];
+				var message = data[1];
+				if(ip == me) {
+				    message = makeMyMessage(message);
+				}
+				else {
+				    message = makeOthersMessage(ip, message);
+				}
+
+                $('#chatbox').append(message);
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+            }
+            sock.onerror = function(m) {
+                console.log("Error occured sending..." + m.data);}
+            sock.onclose = function(m) {
+                console.log("Disconnected - status " + this.readyState);
+                $('#chatbox').append('<p>Your connection is closed! please refresh page(새로고침 해주세요~ㅠ_ㅠ)</p>');
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+            }
+        } catch(exception) {
+            console.log(exception);
+        }
+
+        $('#btn-input').val("");
+        // take what's the textbox and send it off
+        function sendMessage(event) {
+            sock.send($('#btn-input').val());
+            $('#btn-input').val("");
+        }
+        $('#btn-chat').click(sendMessage);
+        $("#btn-input").on('keyup', function(e){
+            if (e.keyCode == 13) {
+                sendMessage();
+            }
+        });
+
+        function makeMyMessage(msg) {
+            var html = '<li class="right clearfix"><span class="chat-img pull-right">' +
+				'<img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="'+me+'" class="img-circle"></span>' +
+				'<div class="chat-body clearfix"><div class="header"><strong class="pull-right primary-font my-name">'+me+'</strong></div>' +
+				'<p class="my-chat-msg">'+msg+'</p></div></li>';
+
+            return html;
+		}
+
+		function makeOthersMessage(ip, msg) {
+			var html = '<li class="left clearfix"><span class="chat-img pull-left">' +
+				'<img src="http://placehold.it/50/55C1E7/fff&amp;text=THEM" alt="'+ip+'" class="img-circle"></span><div class="chat-body clearfix"><div class="header">' +
+				'<strong class="primary-font">'+ip+'</strong></div>' +
+				'<p">'+msg+'</p></div></li>';
+			return html;
+
+			// origin
+//        <li class="left clearfix"><span class="chat-img pull-left">
+//                <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle">
+//                </span>
+//                <div class="chat-body clearfix">
+//                <div class="header">
+//                <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
+//                <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
+//            </div>
+//            <p>
+//            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+//            dolor, quis ullamcorper ligula sodales.
+//            </p>
+//            </div>
+//            </li>
+        }
+	</script>
 </html>
 

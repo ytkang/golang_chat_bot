@@ -58,6 +58,8 @@ func SockServer(ws *websocket.Conn) {
 	log.Println("Number of clients connected ...", len(ActiveClients))
 	// for loop so the websocket stays open otherwise
 	// it'll close after one Receieve and Send
+	Message.Send(sockCli.Websocket, "$%$%YOUR IP$%$%:"+sockCli.ClientIP)
+
 	for {
 		if err = Message.Receive(ws, &clientMessage); err != nil {
 			// If we cannot Read then the connection is closed

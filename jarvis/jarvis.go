@@ -79,7 +79,7 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 
 	}
 
-	answer = "Jarvis said: "+answer
+	answer = "Jarvis Said: "+answer
 	log.Println(answer)
 	for cs, _ := range activeClients {
 		if err := ws.Send(cs.Websocket, answer); err != nil {
