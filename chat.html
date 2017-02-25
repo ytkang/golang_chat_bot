@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 		<title> WebSockets </title>
 		<style>
 			.chat
@@ -74,16 +74,23 @@
 			}
 			#top-wrapper {
 				max-width: 900px;
+				left: 0;
+				right: 0;
 				margin: 0 auto;
+				position: absolute;
+				bottom: 0;
 			}
-
-			@media screen and (-webkit-min-device-pixel-ratio:0) {
-				select,
-				textarea,
-				input {
-					font-size: 16px;
-				}
+			.panel
+			{
+				margin-bottom: 0 !important;
 			}
+			/*@media screen and (-webkit-min-device-pixel-ratio:0) {*/
+				/*select,*/
+				/*textarea,*/
+				/*input {*/
+					/*font-size: 16px;*/
+				/*}*/
+			/*}*/
 		</style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
 		<script
@@ -237,6 +244,11 @@
 //            </div>
 //            </li>
         }
+        $(document).on('blur', 'input, textarea', function () {
+            setTimeout(function () {
+                window.scrollTo(document.body.scrollLeft, document.body.scrollTop);
+            }, 0);
+        });
 	</script>
 </html>
 
