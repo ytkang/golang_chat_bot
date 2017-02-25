@@ -72,6 +72,10 @@
 			{
 				float: right;
 			}
+			#top-wrapper {
+				max-width: 900px;
+				margin: 0 auto;
+			}
 		</style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" />
 		<script
@@ -81,7 +85,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-	<div class="container">
+	<div id="top-wrapper">
 		<div class="row">
 			<div class="col-md-5">
 				<div class="panel panel-primary">
@@ -97,8 +101,8 @@
 							</ul>
 						</div>
 					</div>
-					<div class="panel-body" id="chatbox">
-						<ul class="chat">
+					<div class="panel-body" id="box-wrapper">
+						<ul class="chat" id="chatbox">
 
 						</ul>
 					</div>
@@ -156,14 +160,14 @@
 				}
 
                 $('#chatbox').append(message);
-                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                $('#box-wrapper').scrollTop($('#box-wrapper')[0].scrollHeight);
             }
             sock.onerror = function(m) {
                 console.log("Error occured sending..." + m.data);}
             sock.onclose = function(m) {
                 console.log("Disconnected - status " + this.readyState);
                 $('#chatbox').append('<p>Your connection is closed! please refresh page(새로고침 해주세요~ㅠ_ㅠ)</p>');
-                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                $('#box-wrapper').scrollTop($('#box-wrapper')[0].scrollHeight);
             }
         } catch(exception) {
             console.log(exception);
