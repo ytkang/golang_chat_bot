@@ -212,11 +212,29 @@
 			}
 		}, 1000);
 
+        function linkify(inputText) {
+            var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+            //URLs starting with http://, https://, or ftp://
+            replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|가-힣]*)/gim;
+            replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+            //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+            replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+            replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+            //Change email addresses to mailto:: links.
+            replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+            replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+            return replacedText;
+        }
+
         function makeMyMessage(msg) {
             var html = '<li class="right clearfix"><span class="chat-img pull-right">' +
 				'<img src="http://placehold.it/50/FA6F57/fff&amp;text=나" alt="'+me+'" class="img-circle"></span>' +
 				'<div class="chat-body clearfix"><div class="header"><strong class="pull-right primary-font my-name">'+me+'</strong></div>' +
-				'<p class="my-chat-msg">'+msg+'</p></div></li>';
+				'<p class="my-chat-msg">'+linkify(msg)+'</p></div></li>';
 
             return html;
 		}
@@ -225,7 +243,7 @@
 			var html = '<li class="left clearfix"><span class="chat-img pull-left">' +
 				'<img src="http://placehold.it/50/e755c1/fff&amp;text=쟤" alt="'+ip+'" class="img-circle"></span><div class="chat-body clearfix"><div class="header">' +
 				'<strong class="primary-font">'+ip+'</strong></div>' +
-				'<p">'+msg+'</p></div></li>';
+				'<p">'+linkify(msg)+'</p></div></li>';
 			return html;
 
 			// origin
