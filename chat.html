@@ -186,7 +186,7 @@
             sock.onclose = function(m) {
                 closed = true;
                 console.log("Disconnected - status " + this.readyState);
-                $('#chatbox').append('<p>Your connection is closed! please refresh page(새로고침 해주세요~ㅠ_ㅠ)</p>');
+                $('#chatbox').append('<p>연결이 끊어졌어요~ 새로고침 해주세요~ㅠ_ㅠ)</p>');
                 $('#box-wrapper').scrollTop($('#box-wrapper')[0].scrollHeight);
             }
         } catch(exception) {
@@ -214,7 +214,7 @@
 
         function makeMyMessage(msg) {
             var html = '<li class="right clearfix"><span class="chat-img pull-right">' +
-				'<img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="'+me+'" class="img-circle"></span>' +
+				'<img src="http://placehold.it/50/FA6F57/fff&amp;text=나" alt="'+me+'" class="img-circle"></span>' +
 				'<div class="chat-body clearfix"><div class="header"><strong class="pull-right primary-font my-name">'+me+'</strong></div>' +
 				'<p class="my-chat-msg">'+msg+'</p></div></li>';
 
@@ -223,7 +223,7 @@
 
 		function makeOthersMessage(ip, msg) {
 			var html = '<li class="left clearfix"><span class="chat-img pull-left">' +
-				'<img src="http://placehold.it/50/55C1E7/fff&amp;text=THEM" alt="'+ip+'" class="img-circle"></span><div class="chat-body clearfix"><div class="header">' +
+				'<img src="http://placehold.it/50/e755c1/fff&amp;text=쟤" alt="'+ip+'" class="img-circle"></span><div class="chat-body clearfix"><div class="header">' +
 				'<strong class="primary-font">'+ip+'</strong></div>' +
 				'<p">'+msg+'</p></div></li>';
 			return html;

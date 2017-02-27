@@ -11,6 +11,7 @@ import (
 	"github.com/ytkang/golang_chat_bot/jarvis"
 	"github.com/ytkang/golang_chat_bot/network"
 	"strings"
+	"strconv"
 )
 
 const (
@@ -55,10 +56,12 @@ func SockServer(ws *websocket.Conn) {
 	log.Println("Client connected:", client)
 	sockCli := network.ClientConn{ws, client}
 	ActiveClients[sockCli] = 0
-	log.Println("Number of clients connected ...", len(ActiveClients))
+	activeClientsCount := len(ActiveClients)
+	log.Println("Number of clients connected ...", activeClientsCount)
 	// for loop so the websocket stays open otherwise
 	// it'll close after one Receieve and Send
 	Message.Send(sockCli.Websocket, "$%$%YOUR IP$%$%:"+sockCli.ClientIP)
+	Message.Send(sockCli.Websocket, "Jarvis Said: 안녕! 현재 접속자수: "+strconv.Itoa(activeClientsCount))
 
 	for {
 		if err = Message.Receive(ws, &clientMessage); err != nil {
@@ -76,7 +79,7 @@ func SockServer(ws *websocket.Conn) {
 			continue
 		}
 
-		if !strings.Contains(clientMessage, "A:") && !strings.Contains(clientMessage, "a:") {
+		if !strings.Contains(clientMessage, "ㄷ:") {
 			for cs, _ := range ActiveClients {
 				// go Message.Send(cs.websocket, clientMessage) // DO NOT THIS! This handler is already called from go routine
 				if mongo != nil {

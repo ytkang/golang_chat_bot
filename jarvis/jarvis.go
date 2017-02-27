@@ -29,15 +29,13 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 
 	c := db.DB("ytchat").C("messages")
 
-	if strings.Contains(message, "A:") || strings.Contains(message, "a:") {
+	if strings.Contains(message, "ㄷ:") {
 		if db == nil {
 			return
 		}
 
-		message = strings.Replace(message, "A: ", "", 1)
-		message = strings.Replace(message, "A:", "", 1)
-		message = strings.Replace(message, "a: ", "", 1)
-		message = strings.Replace(message, "a:", "", 1)
+		message = strings.Replace(message, "ㄷ: ", "", 1)
+		message = strings.Replace(message, "ㄷ:", "", 1)
 
 		log.Println("will learning")
 		log.Println(message)
@@ -54,11 +52,11 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 			if err != nil {
 				log.Println("[jarvis] find error")
 				log.Panic(err)
-				answer = "I cannot understand :("
+				answer = "으악 몰람.. 모르겠어 :("
 			} else {
 				log.Println(info)
 				log.Println(obj)
-				answer = "I learned about that :)"
+				answer = "오호? 땡큐베리마취! 잘 배웠어욧! :)"
 			}
 		} else {
 			answer = "There is no question."
@@ -70,7 +68,7 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 		log.Println("Found message: ", msgObj)
 		c.Find(bson.M{"answerOf": msgObj.ID}).All(&msgObj2)
 		if len(msgObj2) == 0 {
-			answer = "What is it? please teach me! \"A: your answer\""
+			answer = "오잉? 이게 뭐지!? 답변좀 굽신굽신~! \"ㄷ:\"를 사용하면 됩니다! 예) ㄷ: ㅋㅋㅋ 이거야~"
 		} else {
 			rand.Seed(time.Now().Unix())
 			i := rand.Intn(len(msgObj2))
@@ -84,7 +82,6 @@ func (jarvis *Jarvis) Answer(ws *websocket.Codec, activeClients map[network.Clie
 	for cs, _ := range activeClients {
 		if err := ws.Send(cs.Websocket, answer); err != nil {
 			// we could not send the message to a peer
-
 			log.Println("[jarvis] Could not send message to ", cs.ClientIP, err.Error())
 		}
 	}
